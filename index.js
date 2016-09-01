@@ -7,22 +7,22 @@ const Split = require('stream-split'); //both memory & cpu efficient way to spli
 app.listen(3000);  //opens up the port/
 
 function server (req, res) {  
-  fs.readFile(__dirname + '/test.html',
-    function (err, data) {
+  fs.readFile(__dirname + '/test.html',  //loads to webpage
+    function (err, data) {      
       if (err) {
-        res.writeHead(500);
-	return res.end('Error loading index.html');
+        res.writeHead(500); 
+	return res.end('Error loading index.html');    //if error loading webpage
       }
 
-      res.writeHead(200);
+      res.writeHead(200); //writes HTTP headers under TCP stream 
       res.end(data);	
     }
   );
 }
 
-io.on('connection', function(socket) {
-  var raspivid = spawn('raspivid', ['-w', '1280', '-h', '960', '-fps', '30', '-o','-','-t','0','-n', '-cd', 'MJPEG']);
-  var delimiter = new Buffer([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46]);
+io.on('connection', function(socket) {  //opens up terminal on raspberry pi
+  var raspivid = spawn('raspivid', ['-w', '1280', '-h', '960', '-fps', '30', '-o','-','-t','0','-n', '-cd', 'MJPEG']); //types this command on the terimnal and stores it.
+  var delimiter = new Buffer([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46]); //buffer- for handling raw binary data instead of encoded strings
 
   var splitter = new Split( delimiter );
   raspivid.stdout.pipe(splitter);
