@@ -1,12 +1,12 @@
-const app= require('http').createServer(server);
-const io = require('socket.io')(app);
-const fs = require('fs');
+const app= require('http').createServer(server); // building an http server
+const io = require('socket.io')(app); 
+const fs = require('fs'); //watches the file for changes
 const spawn = require('child_process').spawn;
-const Split = require('stream-split');
+const Split = require('stream-split'); //both memory & cpu efficient way to split stream into readable chunks of data.
 
-app.listen(3000);
+app.listen(3000);  //opens up the port/
 
-function server (req, res) {
+function server (req, res) {  
   fs.readFile(__dirname + '/test.html',
     function (err, data) {
       if (err) {
