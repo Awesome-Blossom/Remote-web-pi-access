@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  window.onload = function() {
+    var socket = io();
+    var frame = '';
+    var canvas = document.getElementById('video');
+    var context = canvas.getContext('2d');
+    context.width = canvas.width;
+    context.height = canvas.height;
+    // var header = '/9j/4AAQSkZJRgABAgAAAQABAAD/';
+    socket.on('frame', function (data) {
+        var image = new Image();
+        image.src = 'data:image/jpeg;base64,' + data;
+        image.onload = function() {
+          context.drawImage(image, 0, 0, context.width, context.height);
+        }
+    });
+  }
+  </script>
+</head>
+<body>
+  <canvas id="video" width="1024" height="768"></canvas>
+</body>
+</html>
