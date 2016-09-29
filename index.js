@@ -21,6 +21,7 @@ function server (req, res) {
 }
 
 io.on('connection', function(socket) {  //opens up websocket connection with user's browser
+  var frames = 0;
   // Runs this terminal command and keeps it open for standard input and
   // output (STDIO):
   var raspivid = spawn('raspivid',
@@ -40,6 +41,8 @@ io.on('connection', function(socket) {  //opens up websocket connection with use
   raspivid.stdout.pipe(splitter); // Pipe the output from the raspivid process into the splitter.
 
   splitter.on('data', function (chunk) {
+    frames = ++frames % 30;
+    if (frames === 29) { socket.emit('markTime', Date.now() ) };
     // Add the delimiter back into the buffer (the splitter removes it) and
     // convert the frame into base64 so that it can be sent to the client and
     // inserted as an image:

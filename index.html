@@ -19,6 +19,10 @@
           context.drawImage(image, 0, 0, context.width, context.height);
         }
     });
+
+    socket.on('markTime', function(data) {
+      console.log('Mark Time: ' + data);
+    })
   }
   </script>
 </head>
