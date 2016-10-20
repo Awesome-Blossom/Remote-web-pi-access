@@ -9,16 +9,25 @@
     var frame = '';
     var canvas = document.getElementById('video');
     var context = canvas.getContext('2d');
+    var image = new Image();
     context.width = canvas.width;
     context.height = canvas.height;
     // var header = '/9j/4AAQSkZJRgABAgAAAQABAAD/';
     socket.on('frame', function (data) {
-        var image = new Image();
         image.src = 'data:image/jpeg;base64,' + data;
-        image.onload = function() {
-          context.drawImage(image, 0, 0, context.width, context.height);
-        }
     });
+
+    var render = function() {
+         if (image) {
+             context.drawImage(image, 0, 0, context.width, context.height);
+         }
+         requestAnimationFrame(render);
+    }
+    render();
+
+    socket.on('markTime', function(data) {
+      console.log('Mark Time: ' + data);
+    })
   }
   </script>
 </head>

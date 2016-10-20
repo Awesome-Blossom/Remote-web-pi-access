@@ -6,6 +6,7 @@
   "scripts": {
     "test": "test"
   },
+  "repository": "git@github.com:Awesome-Blossom/Remote-web-pi-access.git",
   "author": "",
   "license": "ISC",
   "dependencies": {
